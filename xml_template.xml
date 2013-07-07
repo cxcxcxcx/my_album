@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<juiceboxgallery galleryTitle="{{album_title}}" >
+%for photo in photos:
+  <image imageURL="{{photo.image_url}}"
+	thumbURL="{{photo.thumb_url}}"
+	linkURL="{{photo.image_url}}"
+	linkTarget="_blank">
+	<title>{{photo.title}}</title>
+	<caption>{{photo.caption}}</caption>
+  </image>
+%end
+</juiceboxgallery>
+
