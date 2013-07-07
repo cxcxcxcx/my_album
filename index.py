@@ -9,12 +9,17 @@ import bottle
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 JB_PATH = os.path.join(CURRENT_PATH, 'static/')
+TEMPLATE_PATH = os.path.join(CURRENT_PATH, 'template/')
 #JB_PATH = CURRENT_PATH
 PHOTO_PATH = None
 
 app = Bottle()
 
 albums = None
+
+
+def _get_template(file_name):
+    return open(os.path.join(TEMPLATE_PATH, file_name), 'r').read()
 
 
 @app.get('/static/jbcore/<filepath:path>')
@@ -27,9 +32,10 @@ def photo_files(filepath):
     return static_file(filepath, PHOTO_PATH)
 
 
-@app.get('/album/<album>/')
+@app.get('/album/<album:path>/')
 def static_index(album):
-    return static_file('index.html', JB_PATH)
+    template = SimpleTemplate(source=_get_template('index.html'))
+    return template.render(title=album)
 
 
 class Photo(object):
@@ -38,21 +44,15 @@ class Photo(object):
 
 @app.get('/')
 def all_albums():
-    template = SimpleTemplate("""
-        <html>
-            <ul>
-            % for album in albums:
-              <li><a href="/album/{{album}}/">
-                <img src="/photo/thumbnail/picasa/{{album}}/__album.jpg" />
-                {{album}}
-              </a></li>
-            % end
-            </ul>
-        </html>""")
-    return template.render(albums=albums.keys())
+    sorted_albums = sorted(
+        albums.keys(),
+        key=lambda x: albums[x]['published'],
+        reverse=True)
+    template = SimpleTemplate(source=_get_template('list.html'))
+    return template.render(albums=sorted_albums)
 
 
-@app.get('/album/<album>/config.xml')
+@app.get('/album/<album:path>/config.xml')
 def list_album(album):
     album_dict = albums[album]
     photos = []
@@ -65,7 +65,7 @@ def list_album(album):
         photo.caption = i.get("summary", "")
         photos.append(photo)
 
-    template = SimpleTemplate(source=open('xml_template.xml', 'r').read())
+    template = SimpleTemplate(source=_get_template('xml_template.xml'))
     return template.render(album_title=album, photos=photos)
 
 

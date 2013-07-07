@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Juicebox Gallery</title>
+        <title>{{title}}</title>
 		<meta charset="utf-8" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="description" content="This is a Juicebox Gallery. Get yours at www.juicebox.net" />
+		<meta name="description" content="gallery powered by Juicebox Gallery" />
 		<style type="text/css">
 			body {
 				margin: 0px;
 			}
+            .info {
+              position: absolute;
+              left: 20px;
+              bottom: 20px;
+              z-index: 10000;
+            }
+            .info a {
+              color: #eeeeee;
+            }
 		</style>
 	</head>
 	<body>
+        <div class="info">
+          <a href="/">Back</a>
+        </div>
 		<!--START JUICEBOX EMBED-->
 		<script src="/static/jbcore/juicebox.js"></script>
 		<script>

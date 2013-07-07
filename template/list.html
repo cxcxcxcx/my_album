@@ -1,0 +1,60 @@
+<style type="text/css">
+* {margin: 0; padding: 0;}
+
+a {
+  text-decoration: none;
+}
+ 
+div {
+  margin: 20px;
+}
+ 
+ul {
+  list-style-type: none;
+}
+ 
+h3 {
+  font: bold 16px Helvetica, Verdana, sans-serif;
+  padding-top: 0.2em;
+  color: #123;
+  text-align: center;
+}
+ 
+li img {
+  margin: 0 15px 0 0;
+}
+ 
+li p {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+ 
+li {
+  padding: 10px;
+  overflow: auto;
+  float: left;
+  width: 165px;
+  height: 220px;
+  clear: none;
+}
+ 
+li:hover {
+  background: #eee;
+  cursor: pointer;
+}
+.link-home {
+  margin: 0.6em 0 -1.5em 2em;
+}
+</style>
+<div class="link-home">
+  <a href="http://chenxing.name/">Back to Home Page</a>
+</div>
+<div>
+  <ul>
+    % for album in albums:
+      <li><a href="/album/{{album}}/">
+        <img src="/photo/thumbnail/picasa/{{album}}/__album.jpg" />
+        <h3>{{album}}</h3>
+      </a></li>
+    % end
+  </ul>
+</div>
