@@ -1,8 +1,10 @@
+#!/usr/bin/python2
 import json
 import os
 import sys
 from bottle import Bottle, run, static_file
 from bottle import SimpleTemplate
+import bottle
 
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -34,7 +36,7 @@ class Photo(object):
     pass
 
 
-@app.get('/albums/')
+@app.get('/')
 def all_albums():
     template = SimpleTemplate("""
         <html>
@@ -70,4 +72,8 @@ def list_album(album):
 if __name__ == '__main__':
     PHOTO_PATH = sys.argv[1]
     albums = json.load(open('%s/data.json' % PHOTO_PATH, 'r'))
-    run(app, port=8000)
+    if len(sys.argv) > 2:
+        from flup.server.fcgi import WSGIServer
+        WSGIServer(app).run()
+    else:
+        run(app, host='0.0.0.0', port=8000)
